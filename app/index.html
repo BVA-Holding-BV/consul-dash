@@ -88,8 +88,15 @@
     var total = 0;
     var fail = 0;
     var  serviceName = services[service];
-    var td = $("#matrix #" + serviceName + " .totals");
-    td.removeClass("pass fail warn")
+    var totalsTd = $("#matrix #" + serviceName + " .totals");
+    totalsTd.removeClass("pass fail warn");
+
+    $.each(nodes, function(node){
+      var nodeName = nodes[node].Node.substr(0,8);
+      console.log("#matrix #" + serviceName + " #" + nodeName);
+      $("#matrix #" + serviceName + " #" + nodeName).removeClass("pass fail warn");
+    });
+
     $.getJSON("/v1/health/service/" + serviceName, function(data) {
       $.each(data, function(key, val) {
         var status = "pass";
@@ -110,8 +117,7 @@
       } else if(total == 1 || total - fail == 1) {
         status = "warn";
       }
-      td.html((total - fail) + "/" + total)
-      .addClass(status);
+      totalsTd.html((total - fail) + "/" + total).addClass(status);
     });
   });
  }
