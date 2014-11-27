@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: verdana;
+    }
+    table {
+      margin: 20px;
+      border-spacing: 0;
+      border-style: solid;
+      border-color: black;
+      border-width: 0 0 1px 1px;
+    }
+    td, th {
+      border-style: solid;
+      border-color: black;
+      border-width: 1px 1px 0 0;
+      padding: 5px 10px;
+      text-align: center;
+    }
+    td.name {
+      text-align: left;
+    }
+    tbody tr:nth-child(odd) {
+     background-color: #efefef;
+   }
+   td.pass {
+    background-color: lime;
+  }
+  td.warn {
+    background-color: orange;
+  }
+  td.fail {
+    background-color: red;
+  }
+  a {
+    color: black;
+    text-decoration: none;
+  }
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+  var services = [
+  "facade",
+  "site-80",
+  "consul",
+  "lot-query",
+  "auction-query",
+  "auction-nearby-query",
+  "authentication",
+  "geocoder",
+  "lot-popular-query",
+  "search-query",
+  "tickertape",
+  "lotprofiling",
+  "topcategory-query"
+  ].sort();
+
+  var nodes = [];
+
+  $.getJSON("/v1/catalog/nodes", function(data) {
+    var row = "<tr><th></th>";
+    nodes = data;
+    $.each(data, function(key, val) {
+      row += "<th><a href='http://" + val.Node + ":8500/ui/#/dc1/nodes/" + val.Node + "'>" + val.Node.substr(0, 8) + "</a></th>";
+    });
+    row += "<th></th></tr>\n";
+
+    $("#matrix").append(row);
+    $.each(services, function(service){
+      var serviceName = services[service];
+      var row = "<tr id='" + serviceName + "'><td class='name'>" + serviceName + "</td>";
+      $.each(data, function(key, val) {
+        row += "<td id='" + val.Node.substr(0, 8) + "'>?</td>";
+      });
+      row += "<td class='totals'>0/0</td></tr>\n";
+      $("#matrix").append(row);
+    });
+  });
+
+  function getHealth(){
+   $.each(services, function(service){
+    var total = 0;
+    var fail = 0;
+    var  serviceName = services[service];
+    var td = $("#matrix #" + serviceName + " .totals");
+    td.removeClass("pass fail warn")
+    $.getJSON("/v1/health/service/" + serviceName, function(data) {
+      $.each(data, function(key, val) {
+        var status = "pass";
+        total++;
+        $.each(val.Checks, function(k, check) {
+          if (check.Status !== "passing") {
+            status = "fail";
+            fail++;
+            return false;
+          }
+        });
+        $("#matrix #" + serviceName + " #" + val.Node.Node.substr(0, 8)).removeClass("pass fail warn").addClass(status);
+      });
+
+      var status = "";
+      if(total == 0 || total - fail == 0) {
+        status = "fail";
+      } else if(total == 1 || total - fail == 1) {
+        status = "warn";
+      }
+      td.html((total - fail) + "/" + total)
+      .addClass(status);
+    });
+  });
+ }
+
+ function getInstances(){
+  $.each(services, function(service){
+    var  serviceName = services[service];
+
+    $.each(nodes, function(node){
+      var nodeName = nodes[node].Node.substr(0,8);
+      $("#matrix #" + serviceName + " #" + nodeName).html("-");
+    });
+
+    $.getJSON("/v1/catalog/service/" + serviceName, function(data) {
+      $.each(data, function(key, val) {
+        $("#matrix #" + serviceName + " #" + val.Node.substr(0, 8)).html(
+          "<a href='http://" + val.Node + ":" + val.ServicePort + "/ping'>" + val.ServicePort + "</a>"
+          );
+      });
+    });
+  });
+}
+
+setTimeout(getInstances, 1000);
+setInterval(getInstances, 15000);
+setTimeout(getHealth, 1500);
+setInterval(getHealth, 15000);
+
+</script>
+</head>
+
+<body>
+  <table id="matrix"></table>
+</body>
+</html>
