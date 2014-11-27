@@ -8,39 +8,63 @@
       margin: 0;
       padding: 0;
       font-family: verdana;
+      background-color: #34495e;
     }
     table {
-      margin: 20px;
+      margin: 20px auto;
       border-spacing: 0;
       border-style: solid;
-      border-color: black;
+      border-color: #2c3e50;
       border-width: 0 0 1px 1px;
     }
     td, th {
       border-style: solid;
-      border-color: black;
+      border-color: #2c3e50;
       border-width: 1px 1px 0 0;
       padding: 5px 10px;
       text-align: center;
     }
+    th {
+      background-color: #7f8c8d;
+    }
     td.name {
       text-align: left;
     }
+    tbody tr {
+     background-color: #ecf0f1;
+     color: #34495e;
+   }
     tbody tr:nth-child(odd) {
-     background-color: #efefef;
+     background-color: #bdc3c7;
+     color: #2c3e50;
    }
    td.pass {
-    background-color: lime;
+    background-color: #2ecc71;
+  }
+  tbody tr:nth-child(odd) td.pass {
+    background-color: #27ae60;
   }
   td.warn {
-    background-color: orange;
+    background-color: #f1c40f;
+  }
+  tbody tr:nth-child(odd) td.warn {
+    background-color: #f39c12;
   }
   td.fail {
-    background-color: red;
+    background-color: #e74c3c;
+  }
+  tbody tr:nth-child(odd) td.fail {
+    background-color: #c0392b;
+  }
+  tr th a {
+    color: #bdc3c7 !important;
   }
   a {
-    color: black;
+    color: #2c3e50;
     text-decoration: none;
+  }
+  tbody tr:nth-child(odd) a {
+    color: #34495e;
   }
 </style>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -120,9 +144,9 @@
       totalsTd.html((total - fail) + "/" + total).addClass(status);
     });
   });
- }
+}
 
- function getInstances(){
+function getInstances(){
   $.each(services, function(service){
     var  serviceName = services[service];
 
