@@ -21,11 +21,12 @@
       border-style: solid;
       border-color: #2c3e50;
       border-width: 1px 1px 0 0;
-      padding: 5px 10px;
+      padding: 5px;
       text-align: center;
     }
     th {
       background-color: #7f8c8d;
+      font-size: 2em
     }
     td.name {
       text-align: left;
@@ -82,7 +83,8 @@
   "search-query",
   "tickertape",
   "lotprofiling",
-  "topcategory-query"
+  "topcategory-query",
+  "reverse-proxy-80"
   ].sort();
 
   var nodes = [];
@@ -91,11 +93,11 @@
     var row = "<tr><th></th>";
     nodes = data;
     $.each(data, function(key, val) {
-      row += "<th><a href='http://" + val.Node + ":8500/ui/#/dc1/nodes/" + val.Node + "'>" + val.Node.substr(0, 8) + "</a></th>";
+      row += "<th><a href='http://" + val.Node + ":8500/ui/#/dc1/nodes/" + val.Node + "'>" + val.Node.substr(0, 8).replace('ocker', '') + "</a></th>";
     });
     row += "<th></th></tr>\n";
-
     $("#matrix").append(row);
+
     $.each(services, function(service){
       var serviceName = services[service];
       var row = "<tr id='" + serviceName + "'><td class='name'>" + serviceName + "</td>";
