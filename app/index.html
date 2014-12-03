@@ -82,10 +82,12 @@
 </style>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript">
-  var services = [
-  "facade",
+  var everywhere = ["facade",
   "site-80",
   "consul",
+  "reverse-proxy-80",
+  ];
+  var services = [
   "lot-query",
   "auction-query",
   "auction-nearby-query",
@@ -96,10 +98,18 @@
   "tickertape",
   "lotprofiling",
   "topcategory-query",
-  "reverse-proxy-80"
   ].sort();
 
   var nodes = [];
+
+  function addRow(data, serviceName) {
+    var row = "<tr id='" + serviceName + "'><td class='name'>" + serviceName + "</td>";
+    $.each(data, function(key, val) {
+      row += "<td id='" + val.Node.substr(0, 8) + "'></td>";
+    });
+    row += "<td class='totals'>0/0</td></tr>\n";
+    $("#matrix").append(row);
+  }
 
   $.getJSON("/v1/catalog/nodes", function(data) {
     var row = "<tr><th>docker</th>";
@@ -110,76 +120,51 @@
     row += "<th></th></tr>\n";
     $("#matrix").append(row);
 
+    $.each(everywhere, function(service){
+      addRow(data, everywhere[service]);
+    });
     $.each(services, function(service){
-      var serviceName = services[service];
-      var row = "<tr id='" + serviceName + "'><td class='name'>" + serviceName + "</td>";
-      $.each(data, function(key, val) {
-        row += "<td id='" + val.Node.substr(0, 8) + "'></td>";
-      });
-      row += "<td class='totals'>0/0</td></tr>\n";
-      $("#matrix").append(row);
+      addRow(data, services[service]);
     });
   });
 
   function getHealth(){
-   $.each(services, function(service){
-    var total = 0;
-    var fail = 0;
-    var  serviceName = services[service];
-    var totalsTd = $("#matrix #" + serviceName + " .totals");
-    totalsTd.removeClass("pass fail warn");
+    $.each(services.concat(everywhere), function(index, service){
+      var total = 0;
+      var fail = 0;
+      var totalsTd = $("#matrix #" + service + " .totals");
+      totalsTd.removeClass("pass fail warn");
 
-    $.each(nodes, function(node){
-      var nodeName = nodes[node].Node.substr(0,8);
-      $("#matrix #" + serviceName + " #" + nodeName).removeClass("pass fail warn");
-    });
-
-    $.getJSON("/v1/health/service/" + serviceName, function(data) {
-      $.each(data, function(key, val) {
-        var status = "pass";
-        total++;
-        $.each(val.Checks, function(k, check) {
-          if (check.Status !== "passing") {
-            status = "fail";
-            fail++;
-            return false;
-          }
-        });
-        $("#matrix #" + serviceName + " #" + val.Node.Node.substr(0, 8)).removeClass("pass fail warn").addClass(status);
+      $.each(nodes, function(node){
+        var nodeName = nodes[node].Node.substr(0,8);
+        $("#matrix #" + service + " #" + nodeName).removeClass("pass fail warn");
       });
 
-      var status = "";
-      if(total == 0 || total - fail == 0) {
-        status = "fail";
-      } else if(total == 1 || total - fail == 1) {
-        status = "warn";
-      }
-      totalsTd.html((total - fail) + "/" + total).addClass(status);
+      $.getJSON("/v1/health/service/" + service, function(data) {
+        $.each(data, function(key, val) {
+          var status = "pass";
+          total++;
+          $.each(val.Checks, function(k, check) {
+            if (check.Status !== "passing") {
+              status = "fail";
+              fail++;
+              return false;
+            }
+          });
+          $("#matrix #" + service + " #" + val.Node.Node.substr(0, 8)).removeClass("pass fail warn").addClass(status);
+        });
+
+        var status = "";
+        if(total == 0 || total - fail == 0) {
+          status = "fail";
+        } else if(total == 1 || total - fail == 1) {
+          status = "warn";
+        }
+        totalsTd.html((total - fail) + "/" + total).addClass(status);
+      });
     });
-  });
 }
 
-function getInstances(){
-  $.each(services, function(service){
-    var  serviceName = services[service];
-
-    // $.each(nodes, function(node){
-      // var nodeName = nodes[node].Node.substr(0,8);
-      // $("#matrix #" + serviceName + " #" + nodeName).html("");
-    // });
-
-  $.getJSON("/v1/catalog/service/" + serviceName, function(data) {
-    $.each(data, function(key, val) {
-      $("#matrix #" + serviceName + " #" + val.Node.substr(0, 8)).html(
-          // "<a href='http://" + val.Node + ":" + val.ServicePort + "/ping'>" + val.ServicePort + "</a>"
-          );
-    });
-  });
-});
-}
-
-setTimeout(getInstances, 1000);
-setInterval(getInstances, 15000);
 setTimeout(getHealth, 1500);
 setInterval(getHealth, 15000);
 
