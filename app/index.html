@@ -26,7 +26,7 @@
     }
     th {
       background-color: #7f8c8d;
-      font-size: 2em
+      /*font-size: 0.9em*/
     }
     td.name {
       text-align: left;
@@ -35,27 +35,39 @@
      background-color: #ecf0f1;
      color: #34495e;
    }
-    tbody tr:nth-child(odd) {
+   tbody tr:nth-child(odd) {
      background-color: #bdc3c7;
      color: #2c3e50;
    }
    td.pass {
     background-color: #2ecc71;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA+klEQVQ4T2NkoBAwUqifgRwDmICWTgNiBSAOItUAkOZZQJwMdfkuUgwAaZ4NxElI3p5PrAEsQE3LgDgUSTPIGzkgAzihJj8B0hVYApUZKDYPiOOQ5BZBXfIXZMABILaHSnYD6TIkhSDN84E4FklsATQM/oHEQAaAnJKJpKAVyK4BYpDmhUAcjSQHMiwFiMGaYQaAAgfkJGSFE4F8aSAOQdIM8kYqsmaYASAaZMgSII5E0oDMnAzk5APxf3R55FhgB0puAmI3NEVzgPx0dJuRvYCsngvI2QzETlBBULxn4NKM7AV0Q1YBBR4CcQ42ZyMrJjYh4QgaSDRSBACuIyVzzcW2LwAAAABJRU5ErkJggg==);
+    background-repeat: no-repeat;
+    background-position: 50%;
   }
   tbody tr:nth-child(odd) td.pass {
     background-color: #27ae60;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA+klEQVQ4T2NkoBAwUqifgRwDmICWTgNiBSAOItUAkOZZQJwMdfkuUgwAaZ4NxElI3p5PrAEsQE3LgDgUSTPIGzkgAzihJj8B0hVYApUZKDYPiOOQ5BZBXfIXZMABILaHSnYD6TIkhSDN84E4FklsATQM/oHEQAaAnJKJpKAVyK4BYpDmhUAcjSQHMiwFiMGaYQaAAgfkJGSFE4F8aSAOQdIM8kYqsmaYASAaZMgSII5E0oDMnAzk5APxf3R55FhgB0puAmI3NEVzgPx0dJuRvYCsngvI2QzETlBBULxn4NKM7AV0Q1YBBR4CcQ42ZyMrJjYh4QgaSDRSBACuIyVzzcW2LwAAAABJRU5ErkJggg==);
+    background-repeat: no-repeat;
+    background-position: 50%;
   }
-  td.warn {
+/*  td.warn {
     background-color: #f1c40f;
   }
   tbody tr:nth-child(odd) td.warn {
     background-color: #f39c12;
-  }
+  }*/
   td.fail {
     background-color: #e74c3c;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABNElEQVQ4T6WTTUvCQRCHE7okFfVV8lJIh94OgRZCkgfP1XfqENG1CHpVikiiCPoY0ScQzETK5yc7MW6rBQkPOzs789udcf6ZsX/+MiF/nPUQZmAL3ofoZvEfwxvswqcJHLGphqQb1s2EiJLPYTnE7bPumMAtmxV36x12EVrBFyfLfQkFE5hgcwarTuQJex2+4Bry7kyxZeiYgM4m4QoWXeALdhcWnE+v3bASvYBiUi9xuf0eqMkdc8YC9pJ7jJzPxFZJa2B96R8PE2hwNhcJPLNXo0cKzBKgGuNk03rEUGObqRJSTXwgUEP2axOnCarDvHv2KfZ2KFPTp7n48RLrgQZnyQXofy/BR/ClBulCoqlRroXkdtREiSjJLhoYZdV5AFNQgTjZtCRyAq+wB98fU3TZ37c9GZI+EcJIsp0AAAAASUVORK5CYII=);
+    background-repeat: no-repeat;
+    background-position: 50%;
   }
   tbody tr:nth-child(odd) td.fail {
     background-color: #c0392b;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABNElEQVQ4T6WTTUvCQRCHE7okFfVV8lJIh94OgRZCkgfP1XfqENG1CHpVikiiCPoY0ScQzETK5yc7MW6rBQkPOzs789udcf6ZsX/+MiF/nPUQZmAL3ofoZvEfwxvswqcJHLGphqQb1s2EiJLPYTnE7bPumMAtmxV36x12EVrBFyfLfQkFE5hgcwarTuQJex2+4Bry7kyxZeiYgM4m4QoWXeALdhcWnE+v3bASvYBiUi9xuf0eqMkdc8YC9pJ7jJzPxFZJa2B96R8PE2hwNhcJPLNXo0cKzBKgGuNk03rEUGObqRJSTXwgUEP2axOnCarDvHv2KfZ2KFPTp7n48RLrgQZnyQXofy/BR/ClBulCoqlRroXkdtREiSjJLhoYZdV5AFNQgTjZtCRyAq+wB98fU3TZ37c9GZI+EcJIsp0AAAAASUVORK5CYII=);
+    background-repeat: no-repeat;
+    background-position: 50%;
   }
   tr th a {
     color: #bdc3c7 !important;
@@ -90,10 +102,10 @@
   var nodes = [];
 
   $.getJSON("/v1/catalog/nodes", function(data) {
-    var row = "<tr><th></th>";
+    var row = "<tr><th>docker</th>";
     nodes = data;
     $.each(data, function(key, val) {
-      row += "<th><a href='http://" + val.Node + ":8500/ui/#/dc1/nodes/" + val.Node + "'>" + val.Node.substr(0, 8).replace('ocker', '') + "</a></th>";
+      row += "<th><a href='http://" + val.Node + ":8500/ui/#/dc1/nodes/" + val.Node + "'>" + val.Node.substr(0, 8).replace('docker', '') + "</a></th>";
     });
     row += "<th></th></tr>\n";
     $("#matrix").append(row);
@@ -102,7 +114,7 @@
       var serviceName = services[service];
       var row = "<tr id='" + serviceName + "'><td class='name'>" + serviceName + "</td>";
       $.each(data, function(key, val) {
-        row += "<td id='" + val.Node.substr(0, 8) + "'>?</td>";
+        row += "<td id='" + val.Node.substr(0, 8) + "'></td>";
       });
       row += "<td class='totals'>0/0</td></tr>\n";
       $("#matrix").append(row);
@@ -151,19 +163,19 @@ function getInstances(){
   $.each(services, function(service){
     var  serviceName = services[service];
 
-    $.each(nodes, function(node){
-      var nodeName = nodes[node].Node.substr(0,8);
-      $("#matrix #" + serviceName + " #" + nodeName).html("-");
-    });
+    // $.each(nodes, function(node){
+      // var nodeName = nodes[node].Node.substr(0,8);
+      // $("#matrix #" + serviceName + " #" + nodeName).html("");
+    // });
 
-    $.getJSON("/v1/catalog/service/" + serviceName, function(data) {
-      $.each(data, function(key, val) {
-        $("#matrix #" + serviceName + " #" + val.Node.substr(0, 8)).html(
-          "<a href='http://" + val.Node + ":" + val.ServicePort + "/ping'>" + val.ServicePort + "</a>"
+  $.getJSON("/v1/catalog/service/" + serviceName, function(data) {
+    $.each(data, function(key, val) {
+      $("#matrix #" + serviceName + " #" + val.Node.substr(0, 8)).html(
+          // "<a href='http://" + val.Node + ":" + val.ServicePort + "/ping'>" + val.ServicePort + "</a>"
           );
-      });
     });
   });
+});
 }
 
 setTimeout(getInstances, 1000);
