@@ -28,6 +28,11 @@
     th {
       background-color: #7f8c8d;
     }
+    th.leader {
+      color: #34495e;
+      text-shadow: #ecf0f1 2px 2px 4px;
+      background: url('kim.jpg') 48% 24%;
+    }
     td.name {
       text-align: left;
       width: 150px;
@@ -63,12 +68,8 @@
     background-repeat: no-repeat;
     background-position: 50%;
   }
-  tr th a {
-    color: #bdc3c7 !important;
-  }
-  a {
-    color: #2c3e50;
-    text-decoration: none;
+  tr th {
+    color: #bdc3c7;
   }
   tbody tr:nth-child(odd) a {
     color: #34495e;
@@ -109,7 +110,8 @@
     var row = "<tr><th>docker</th>";
     nodes = data;
     $.each(data, function(key, val) {
-      row += "<th><a href='http://" + val.Node + ":8500/ui/#/dc1/nodes/" + val.Node + "'>" + val.Node.substr(0, 8).replace('docker', '') + "</a></th>";
+      var id = val.Address.replace(/\./g, '-');
+      row += "<th id='" + id + "'>" + val.Node.substr(0, 8).replace('docker', '') + "</th>";
     });
     row += "<th></th></tr>\n";
     $("#matrix").append(row);
@@ -139,6 +141,11 @@
   }
 
   function getHealth(){
+    $.getJSON("/v1/status/leader", function(data){
+      var ip = data.substr(0, data.lastIndexOf(":")).replace(/\./g, '-');
+      $("#" + ip).addClass("leader");
+    });
+
     $.each(services.concat(everywhere), function(index, service){
       var total = 0;
       var fail = 0;
