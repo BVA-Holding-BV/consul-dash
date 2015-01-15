@@ -23,13 +23,14 @@
       border-width: 1px 1px 0 0;
       padding: 5px;
       text-align: center;
+      width: 63px;
     }
     th {
       background-color: #7f8c8d;
-      /*font-size: 0.9em*/
     }
     td.name {
       text-align: left;
+      width: 180px;
     }
     tbody tr {
      background-color: #ecf0f1;
@@ -41,31 +42,21 @@
    }
    td.pass {
     background-color: #2ecc71;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA+klEQVQ4T2NkoBAwUqifgRwDmICWTgNiBSAOItUAkOZZQJwMdfkuUgwAaZ4NxElI3p5PrAEsQE3LgDgUSTPIGzkgAzihJj8B0hVYApUZKDYPiOOQ5BZBXfIXZMABILaHSnYD6TIkhSDN84E4FklsATQM/oHEQAaAnJKJpKAVyK4BYpDmhUAcjSQHMiwFiMGaYQaAAgfkJGSFE4F8aSAOQdIM8kYqsmaYASAaZMgSII5E0oDMnAzk5APxf3R55FhgB0puAmI3NEVzgPx0dJuRvYCsngvI2QzETlBBULxn4NKM7AV0Q1YBBR4CcQ42ZyMrJjYh4QgaSDRSBACuIyVzzcW2LwAAAABJRU5ErkJggg==);
     background-repeat: no-repeat;
     background-position: 50%;
   }
   tbody tr:nth-child(odd) td.pass {
     background-color: #27ae60;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA+klEQVQ4T2NkoBAwUqifgRwDmICWTgNiBSAOItUAkOZZQJwMdfkuUgwAaZ4NxElI3p5PrAEsQE3LgDgUSTPIGzkgAzihJj8B0hVYApUZKDYPiOOQ5BZBXfIXZMABILaHSnYD6TIkhSDN84E4FklsATQM/oHEQAaAnJKJpKAVyK4BYpDmhUAcjSQHMiwFiMGaYQaAAgfkJGSFE4F8aSAOQdIM8kYqsmaYASAaZMgSII5E0oDMnAzk5APxf3R55FhgB0puAmI3NEVzgPx0dJuRvYCsngvI2QzETlBBULxn4NKM7AV0Q1YBBR4CcQ42ZyMrJjYh4QgaSDRSBACuIyVzzcW2LwAAAABJRU5ErkJggg==);
     background-repeat: no-repeat;
     background-position: 50%;
   }
-/*  td.warn {
-    background-color: #f1c40f;
-  }
-  tbody tr:nth-child(odd) td.warn {
-    background-color: #f39c12;
-  }*/
   td.fail {
     background-color: #e74c3c;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABNElEQVQ4T6WTTUvCQRCHE7okFfVV8lJIh94OgRZCkgfP1XfqENG1CHpVikiiCPoY0ScQzETK5yc7MW6rBQkPOzs789udcf6ZsX/+MiF/nPUQZmAL3ofoZvEfwxvswqcJHLGphqQb1s2EiJLPYTnE7bPumMAtmxV36x12EVrBFyfLfQkFE5hgcwarTuQJex2+4Bry7kyxZeiYgM4m4QoWXeALdhcWnE+v3bASvYBiUi9xuf0eqMkdc8YC9pJ7jJzPxFZJa2B96R8PE2hwNhcJPLNXo0cKzBKgGuNk03rEUGObqRJSTXwgUEP2axOnCarDvHv2KfZ2KFPTp7n48RLrgQZnyQXofy/BR/ClBulCoqlRroXkdtREiSjJLhoYZdV5AFNQgTjZtCRyAq+wB98fU3TZ37c9GZI+EcJIsp0AAAAASUVORK5CYII=);
     background-repeat: no-repeat;
     background-position: 50%;
   }
   tbody tr:nth-child(odd) td.fail {
     background-color: #c0392b;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABNElEQVQ4T6WTTUvCQRCHE7okFfVV8lJIh94OgRZCkgfP1XfqENG1CHpVikiiCPoY0ScQzETK5yc7MW6rBQkPOzs789udcf6ZsX/+MiF/nPUQZmAL3ofoZvEfwxvswqcJHLGphqQb1s2EiJLPYTnE7bPumMAtmxV36x12EVrBFyfLfQkFE5hgcwarTuQJex2+4Bry7kyxZeiYgM4m4QoWXeALdhcWnE+v3bASvYBiUi9xuf0eqMkdc8YC9pJ7jJzPxFZJa2B96R8PE2hwNhcJPLNXo0cKzBKgGuNk03rEUGObqRJSTXwgUEP2axOnCarDvHv2KfZ2KFPTp7n48RLrgQZnyQXofy/BR/ClBulCoqlRroXkdtREiSjJLhoYZdV5AFNQgTjZtCRyAq+wB98fU3TZ37c9GZI+EcJIsp0AAAAASUVORK5CYII=);
     background-repeat: no-repeat;
     background-position: 50%;
   }
@@ -128,6 +119,22 @@
     });
   });
 
+  function getVersionTag(tags){
+    if(tags == null) {
+      return "!!!";
+    }
+
+    var version = "-";
+
+    $.each(tags, function(k, tag){
+      if(tag.indexOf("version:") == 0){
+        version = tag.substr(8);
+        return false;
+      }
+    });
+    return version;
+  }
+
   function getHealth(){
     $.each(services.concat(everywhere), function(index, service){
       var total = 0;
@@ -137,13 +144,14 @@
 
       $.each(nodes, function(node){
         var nodeName = nodes[node].Node.substr(0,8);
-        $("#matrix #" + service + " #" + nodeName).removeClass("pass fail warn");
+        $("#matrix #" + service + " #" + nodeName).removeClass("pass fail warn").html("");
       });
 
       $.getJSON("/v1/health/service/" + service, function(data) {
         $.each(data, function(key, val) {
           var status = "pass";
           total++;
+          var version = getVersionTag(val.Service.Tags);
           $.each(val.Checks, function(k, check) {
             if (check.Status !== "passing") {
               status = "fail";
@@ -151,7 +159,7 @@
               return false;
             }
           });
-          $("#matrix #" + service + " #" + val.Node.Node.substr(0, 8)).removeClass("pass fail warn").addClass(status);
+          $("#matrix #" + service + " #" + val.Node.Node.substr(0, 8)).removeClass("pass fail warn").addClass(status).html(version);
         });
 
         var status = "";
