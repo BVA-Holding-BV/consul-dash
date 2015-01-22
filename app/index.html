@@ -141,6 +141,7 @@
   }
 
   function getHealth(){
+    $("th").removeClass("leader");
     $.getJSON("/v1/status/leader", function(data){
       var ip = data.substr(0, data.lastIndexOf(":")).replace(/\./g, '-');
       $("#" + ip).addClass("leader");

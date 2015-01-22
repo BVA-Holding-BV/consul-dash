@@ -5,4 +5,4 @@ consul-dash
 or
 `./run.sh`
 
-Then, visit [the site](http://boot2docker/).
+Then, visit [the site](http://boot2docker:8001/).
