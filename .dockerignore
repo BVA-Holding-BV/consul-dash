@@ -1,11 +1,2 @@
 README.md
-bower*
-*.json
-deployment
-fig.yml
-gulpfile.js
-local_data
-node_modules
-site.iml
 .git*
-.tmp
