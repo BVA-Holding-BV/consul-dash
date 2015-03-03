@@ -1,199 +1,79 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en" ng-app="ConsulDash" class="no-js">
 <head>
-  <meta charset="UTF-8">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: verdana;
-      background-color: #34495e;
-    }
-    table {
-      margin: 20px auto;
-      border-spacing: 0;
-      border-style: solid;
-      border-color: #2c3e50;
-      border-width: 0 0 1px 1px;
-    }
-    td, th {
-      border-style: solid;
-      border-color: #2c3e50;
-      border-width: 1px 1px 0 0;
-      padding: 5px;
-      text-align: center;
-      width: 63px;
-    }
-    th {
-      background-color: #7f8c8d;
-    }
-    th.leader {
-      color: #34495e;
-      text-shadow: #ecf0f1 2px 2px 4px;
-      background: url('kim.jpg') 48% 24%;
-    }
-    td.name {
-      text-align: left;
-      width: 150px;
-      overflow: hidden;
-      display: block;
-      white-space: nowrap;
-    }
-    tbody tr {
-     background-color: #ecf0f1;
-     color: #34495e;
-   }
-   tbody tr:nth-child(odd) {
-     background-color: #bdc3c7;
-     color: #2c3e50;
-   }
-   td.pass {
-    background-color: #2ecc71;
-    background-repeat: no-repeat;
-    background-position: 50%;
-  }
-  tbody tr:nth-child(odd) td.pass {
-    background-color: #27ae60;
-    background-repeat: no-repeat;
-    background-position: 50%;
-  }
-  td.fail {
-    background-color: #e74c3c;
-    background-repeat: no-repeat;
-    background-position: 50%;
-  }
-  tbody tr:nth-child(odd) td.fail {
-    background-color: #c0392b;
-    background-repeat: no-repeat;
-    background-position: 50%;
-  }
-  tr th {
-    color: #bdc3c7;
-  }
-  tbody tr:nth-child(odd) a {
-    color: #34495e;
-  }
-</style>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script type="text/javascript">
-  var everywhere = [
-  "consul",
-  "facade",
-  "site",
-  "reverse-proxy"
-  ];
-  var services = [
-  "lot-query",
-  "auction-query",
-  "auction-nearby-query",
-  "authentication",
-  "geocoder",
-  "lot-popular-query",
-  "search-query",
-  "terms-query",
-  "tickertape",
-  "lotprofiling",
-  "topcategory-query",
-  "user-lots-query"
-  ].sort();
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>consul-dash</title>
 
-  var nodes = [];
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-cookies.min.js"></script>
+	<script src="assets/ui-bootstrap-custom-0.12.1.min.js"></script>
+	<script src="assets/ui-bootstrap-custom-tpls-0.12.1.min.js"></script>
+	<script src="assets/app-dash.js"></script>
+	<script type="application/javascript">
+		angular.module('ConsulDash', ['buildControllers', 'ui.bootstrap', 'ngCookies']);
+	</script>
 
-  function addRow(data, serviceName) {
-    var row = "<tr id='" + serviceName + "'><td class='name'>" + serviceName + "</td>";
-    $.each(data, function(key, val) {
-      row += "<td id='" + val.Node.substr(0, 8) + "'></td>";
-    });
-    row += "<td class='totals'>0/0</td></tr>\n";
-    $("#matrix").append(row);
-  }
+	<link rel="stylesheet" href="assets/bootstrap.min.css">
 
-  $.getJSON("/v1/catalog/nodes", function(data) {
-    var row = "<tr><th>docker</th>";
-    nodes = data;
-    $.each(data, function(key, val) {
-      var id = val.Address.replace(/\./g, '-');
-      row += "<th id='" + id + "'>" + val.Node.substr(0, 8).replace('docker', '') + "</th>";
-    });
-    row += "<th></th></tr>\n";
-    $("#matrix").append(row);
-
-    $.each(everywhere, function(service){
-      addRow(data, everywhere[service]);
-    });
-    $.each(services, function(service){
-      addRow(data, services[service]);
-    });
-  });
-
-  function getVersionTag(tags){
-    if(tags == null) {
-      return "!!!";
-    }
-
-    var version = "-";
-
-    $.each(tags, function(k, tag){
-      if(tag.indexOf("version:") == 0){
-        version = tag.substr(8);
-        return false;
-      }
-    });
-    return version;
-  }
-
-  function getHealth(){
-    $("th").removeClass("leader");
-    $.getJSON("/v1/status/leader", function(data){
-      var ip = data.substr(0, data.lastIndexOf(":")).replace(/\./g, '-');
-      $("#" + ip).addClass("leader");
-    });
-
-    $.each(services.concat(everywhere), function(index, service){
-      var total = 0;
-      var fail = 0;
-      var totalsTd = $("#matrix #" + service + " .totals");
-      totalsTd.removeClass("pass fail warn");
-
-      $.each(nodes, function(node){
-        var nodeName = nodes[node].Node.substr(0,8);
-        $("#matrix #" + service + " #" + nodeName).removeClass("pass fail warn").html("");
-      });
-
-      $.getJSON("/v1/health/service/" + service, function(data) {
-        $.each(data, function(key, val) {
-          var status = "pass";
-          total++;
-          var version = getVersionTag(val.Service.Tags);
-          $.each(val.Checks, function(k, check) {
-            if (check.Status !== "passing") {
-              status = "fail";
-              fail++;
-              return false;
-            }
-          });
-          $("#matrix #" + service + " #" + val.Node.Node.substr(0, 8)).removeClass("pass fail warn").addClass(status).html(version);
-        });
-
-        var status = "";
-        if(total == 0 || total - fail == 0) {
-          status = "fail";
-        } else if(total == 1 || total - fail == 1) {
-          status = "warn";
-        }
-        totalsTd.html((total - fail) + "/" + total).addClass(status);
-      });
-    });
-}
-
-setTimeout(getHealth, 1500);
-setInterval(getHealth, 15000);
-
-</script>
+	<link rel="stylesheet" href="assets/style.css">
 </head>
+<body ng-controller="ConsulDashCtrl">
 
-<body>
-  <table id="matrix"></table>
+
+<div id="servers">
+	<div ng-click="showBody = !showBody" class="panel" ng-repeat="server in servers | orderBy: 'Name'" ng-class="{'panel-info': server.Status == 1 && !server.isLeader, 'panel-success': server.isLeader, 'panel-danger': server.Status != 1}">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{server.Name}}</h3>
+		</div>
+		<div class="panel-body" ng-show="showBody">
+			{{server.Addr}}:{{server.Port}}<br/>
+			Status: {{server.Status}}<br/>
+			dc: {{server.Tags.dc}}
+		</div>
+	</div>
+</div>
+
+<table class="table table-striped table-hover">
+	<thead>
+	<tr>
+		<th></th>
+		<th>count</th>
+		<th ng-repeat="node in nodes | orderBy: 'Name'" ng-click="table(node.Name)">{{ node.Name }}</th>
+	</tr>
+	</thead>
+	<tbody>
+
+	<tr ng-repeat="service in services">
+		<td class="service-name">{{service}}</td>
+		<td>
+			<span class="label"
+			      ng-class="{
+			      'label-danger': healthyPerService[service] == 0 || healthyPerService[service] == undefined,
+			      'label-warning': healthyPerService[service] != nodeCount || healthyPerService[service] != instanceCount[service],
+			      'label-success': healthyPerService[service] == nodeCount,
+			      }">
+			{{healthyPerService[service] || 0}} / {{instanceCount[service] || 0}}
+			</span>
+		</td>
+		<td ng-repeat="node in nodes | orderBy: 'Name'">
+			<div ng-repeat="nodeService in servicesPerNode[node.Name][service]">
+				<span>{{ nodeService.Version }}</span>
+				<span tooltip="{{ healthPerNode[node.Name][nodeService.ID].output }}"
+				      class="label label-primary"
+				      ng-class="{
+				      'label-danger': healthPerNode[node.Name][nodeService.ID].status == 'critical',
+				      'label-warning': healthPerNode[node.Name][nodeService.ID].status == 'warning',
+				      'label-success': healthPerNode[node.Name][nodeService.ID].status == 'passing',
+				      }">
+					{{ healthPerNode[node.Name][nodeService.ID].status || 'unchecked' }}
+				</span>
+			</div>
+		</td>
+	</tr>
+
+	</tbody>
+</table>
+
 </body>
 </html>

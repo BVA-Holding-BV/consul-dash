@@ -1,0 +1,14 @@
+.panel {
+	width: 200px;
+	float: left;
+	margin-right: 10px;
+}
+
+.service-name {
+	width: 200px;
+}
+
+.darker {
+	opacity: 0.75 !important;
+	height: 100%;
+}

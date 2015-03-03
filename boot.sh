@@ -5,6 +5,6 @@ if [ ! ${CONSUL_LOCATION} ]; then
   exit 1
 fi
 
-sed -i"" "s/%%CONSUL_LOCATION%%/${CONSUL_LOCATION}/g" /etc/nginx/conf.d/default.conf
+sed -i"" "s/%%CONSUL_LOCATION%%/${CONSUL_LOCATION}/g" /usr/share/nginx/html/assets/app-*.js
 
 nginx -g "daemon off;"

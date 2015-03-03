@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ConsulTable" class="no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>consul-table</title>
+
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-cookies.min.js"></script>
+	<script src="assets/ui-bootstrap-custom-0.12.1.min.js"></script>
+	<script src="assets/ui-bootstrap-custom-tpls-0.12.1.min.js"></script>
+	<script src="assets/app-table.js"></script>
+	<script type="application/javascript">
+		angular.module('ConsulTable', ['buildControllers', 'ui.bootstrap', 'ngCookies']);
+	</script>
+
+	<link rel="stylesheet" href="assets/bootstrap-light.min.css">
+	<link rel="stylesheet" href="assets/style.css">
+</head>
+<body ng-controller="ConsulTableCtrl">
+<div class="container">
+	<h1>
+		<span class="dropdown" dropdown on-toggle="toggled(open)">
+	    <a href class="dropdown-toggle" dropdown-toggle>
+		    {{node}}
+		    <span class="caret"></span>
+	    </a>
+		<ul class="dropdown-menu">
+			<li ng-repeat="n in nodes">
+				<a href ng-click="setNode(n)">{{n}}</a>
+			</li>
+		</ul>
+	    </span>
+	</h1>
+
+	<a href="index.html">&laquo;&nbsp;back</a>
+
+	<table class="table table-striped table-hover">
+		<thead>
+		<tr>
+			<th>service</th>
+			<th>health</th>
+			<th>id</th>
+			<th>version tag</th>
+			<th>port</th>
+			<th>&nbsp;
+				<button type="button" class="btn btn-xs" ng-model="safetyToggle" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0"
+						ng-class="{'btn-success': !safetyToggle,'btn-danger': safetyToggle}">
+					safety
+				</button>
+			</th>
+		</tr>
+		</thead>
+
+		<tbody>
+		<tr ng-repeat="nodeDate in services | orderBy: ['Service', 'ID']">
+			<td>
+				{{nodeDate.Service}}
+			</td>
+			<td>
+			<span
+					tooltip="{{ health[nodeDate.ID].output }}"
+					ng-class="{'label-danger': health[nodeDate.ID].status == 'critical',
+					'label-warning':  health[nodeDate.ID].status == 'warning',
+					'label-success':  health[nodeDate.ID].status == 'passing'}"
+					class="label label-primary">
+				{{ health[nodeDate.ID].status || 'unchecked' }}
+			</span>
+			</td>
+			<td>{{nodeDate.ID}}</td>
+			<td>{{nodeDate.Tags[0]}}</td>
+			<td><a href="http://{{node}}.bva.nu:{{nodeDate.Port}}/ping">{{nodeDate.Port}}</a></td>
+			<td>
+				<button ng-click="confirm(nodeDate.ID)" ng-if="safetyToggle || health[nodeDate.ID].status == 'critical'" class="btn btn-danger btn-xs">
+					delete service
+				</button>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>

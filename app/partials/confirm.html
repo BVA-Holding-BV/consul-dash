@@ -1,0 +1,40 @@
+<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" ng-click="$dismiss()">×</button>
+		<h4 class="modal-title">Delete service</h4>
+	</div>
+	<div class="modal-body">
+		<div class="alert alert-danger">You are about to delete a service from Consul. This can not be undone. Note that
+			if the Docker container is
+			still running, Consul will not be able to find it anymore.
+			<br/>
+			Manually delete the container if necessary:<br/><code>ssh {{node}}.bva.nu docker rm -fv {{containerName}}</code>
+		</div>
+		<table class="table table-hover">
+			<tbody>
+			<tr>
+				<td>Host</td>
+				<td>{{node}}</td>
+			</tr>
+			<tr>
+				<td>ID</td>
+				<td>{{serviceIdToDelete}}</td>
+			</tr>
+			<tr>
+				<td>Status</td>
+				<td><span class="label label-danger">{{health[serviceIdToDelete].status}}</span></td>
+			</tr>
+			<tr>
+				<td>Output</td>
+				<td>{{health[serviceIdToDelete].output}}</td>
+			</tr>
+			</tbody>
+		</table>
+		<p>Are you absolutely sure you want to delete this service?</p>
+		<code>curl -v '{{node}}.bva.nu:8500/v1/agent/service/deregister/{{serviceIdToDelete}}'</code>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="$dismiss()">The voice of reason</button>
+		<button type="button" class="btn btn-danger" ng-click="$close()">Kill the thing already</button>
+	</div>
+</div>
