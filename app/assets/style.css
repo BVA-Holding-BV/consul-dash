@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 .panel {
 	width: 200px;
 	float: left;
