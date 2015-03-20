@@ -30,7 +30,7 @@
 	</thead>
 	<tbody>
 
-	<tr ng-repeat="service in services">
+	<tr ng-repeat="service in services | orderBy: service">
 		<td class="service-name">{{service}}</td>
 		<td>
 			<span class="label"
