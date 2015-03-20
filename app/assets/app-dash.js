@@ -30,6 +30,7 @@ var ConsulDashCtrl = function ($scope, $http, $log, $cookies) {
     "lotprofiling",
     "topcategory-query",
     "user-lots-query",
+    "ecosystem-health-check",
   ];
 
   $scope.servicesPerNode = {};
