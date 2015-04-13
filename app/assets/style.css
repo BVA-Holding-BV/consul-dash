@@ -16,3 +16,7 @@ body {
 	opacity: 0.75 !important;
 	height: 100%;
 }
+
+.version-label {
+    font-size: 15px;
+}

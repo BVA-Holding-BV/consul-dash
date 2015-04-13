@@ -44,15 +44,14 @@
 		</td>
 		<td ng-repeat="node in nodes | orderBy: 'Name'">
 			<div ng-repeat="nodeService in servicesPerNode[node.Name][service]">
-				<span>{{ nodeService.Version }}</span>
 				<span tooltip="{{ healthPerNode[node.Name][nodeService.ID].output }}"
-				      class="label label-primary"
+				      class="label label-primary version-label"
 				      ng-class="{
 				      'label-danger': healthPerNode[node.Name][nodeService.ID].status == 'critical',
 				      'label-warning': healthPerNode[node.Name][nodeService.ID].status == 'warning',
 				      'label-success': healthPerNode[node.Name][nodeService.ID].status == 'passing',
 				      }">
-					{{ healthPerNode[node.Name][nodeService.ID].status || 'unchecked' }}
+					{{ nodeService.Version }}
 				</span>
 			</div>
 		</td>
