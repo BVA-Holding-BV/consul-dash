@@ -17,6 +17,24 @@ body {
 	height: 100%;
 }
 
-.version-label {
-    font-size: 15px;
+.label-primary {
+    background-color: #5c89b9;
 }
+
+.label-success {
+    background-color: #00bc8c;
+}
+
+.label-warning {
+    background-color: #f39c12;
+}
+
+.label-danger {
+    background-color: #e74c3c;
+}
+
+.version-label {
+    font-size: 17px;
+    color: #0f0f0f;
+}
+
