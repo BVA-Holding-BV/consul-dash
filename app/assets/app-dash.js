@@ -19,6 +19,7 @@ var ConsulDashCtrl = function ($scope, $http, $log, $cookies) {
     "site",
     'reverse-proxy',
     'facade',
+    'registration',
     "lot-query",
     "auction-query",
     "auction-nearby-query",
