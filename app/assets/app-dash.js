@@ -28,7 +28,6 @@ var ConsulDashCtrl = function ($scope, $http, $log, $cookies) {
     "lot-popular-query",
     "search-query",
     "tickertape",
-    "lotprofiling",
     "topcategory-query",
     "user-lots-query",
     "ecosystem-health-check",
