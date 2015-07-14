@@ -26,6 +26,7 @@ var ConsulDashCtrl = function ($scope, $http, $log, $cookies) {
     "geocoder",
     "lot-popular-query",
     "search-query",
+    "sms-sender",
     "tickertape",
     "topcategory-query",
     "user-lots-query",
