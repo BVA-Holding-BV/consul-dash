@@ -18,6 +18,7 @@ var ConsulDashCtrl = function ($scope, $http, $log, $cookies) {
   $scope.services = [
     "site",
     'reverse-proxy',
+    'nginx-rate-limit',
     'facade',
     'registration',
     "auction-query",
