@@ -7,7 +7,7 @@ Then, visit [the site](http://boot2docker:80/).
 
 
 ## Dev instructions
-`docker run -e "CONSUL_LOCATION=docker02.bva.nu:8500" --volume $(pwd)/app:/usr/share/nginx/html $@ --name consul-dash consul-dash`
+`docker run -e "CONSUL_LOCATION=docker02.bva.nu:8500" -p 80:80 --volume $(pwd)/app:/usr/share/nginx/html $@ --name consul-dash bvaauctions/consul-dash`
 
 
 ## Build instructions

@@ -42,7 +42,7 @@
 			<th>health</th>
 			<th>id</th>
 			<th>version tag</th>
-			<th>port</th>
+			<th>port(s)</th>
 			<th>&nbsp;
 				<button type="button" class="btn btn-xs" ng-model="safetyToggle" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0"
 						ng-class="{'btn-success': !safetyToggle,'btn-danger': safetyToggle}">
@@ -69,7 +69,7 @@
 			</td>
 			<td>{{nodeDate.ID}}</td>
 			<td>{{nodeDate.Tags[0]}}</td>
-			<td><a href="http://{{node}}.bva.nu:{{nodeDate.Port}}/ping">{{nodeDate.Port}}</a></td>
+			<td><a href="http://{{node}}.bva.nu:{{nodeDate.Port}}/ping">{{nodeDate.Port}}</a><span ng-if="health[nodeDate.ID].status"> / <a href="http://{{node}}.bva.nu:{{nodeDate.Port + 1}}">{{nodeDate.Port + 1}}</a></span></td>
 			<td>
 				<button ng-click="confirm(nodeDate.ID)" ng-if="safetyToggle || health[nodeDate.ID].status == 'critical'" class="btn btn-danger btn-xs">
 					delete service
